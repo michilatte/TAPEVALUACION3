@@ -1,0 +1,30 @@
+version: "3"
+services:
+  mongodocker-spring:
+    image: miriamlisseth/mongodocker-spring:latest
+    networks:
+      - mongodocker-cloud
+    container_name: mongodocker-spring
+    depends_on:
+      - evaluacion3
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://evaluacion3:27017/evaluacion3_bd
+      - SPRING_DATA_MONGODB_DATABASE=evaluacion3_bd
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_DATASOURCE.CACHEPREPSTMTS=false
+    ports:
+      - 8082:8080
+
+  mongodb_container:
+    image: mongo:latest
+    networks:
+      - mongodocker-cloud
+    container_name: evaluacion3
+    ports:
+      - 1978:27017
+    environment:
+      - MONGO_INITDB_DATABASE=evaluacion3_bd
+
+networks:
+  mongodocker-cloud:
